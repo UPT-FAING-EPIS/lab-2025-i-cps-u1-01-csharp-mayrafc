@@ -1,0 +1,1 @@
+ŒRvC:\Users\LENOVO\Documents\calida22\lab-2025-i-cps-u1-01-csharp-mayrafc\Bank\Bank.Domain.Tests\Bank.Domain.Tests.csproj¢net8.0òCSharp12

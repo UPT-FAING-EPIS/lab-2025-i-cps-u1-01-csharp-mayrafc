@@ -1,0 +1,10 @@
+﻿C:\Users\LENOVO\Documents\calida22\lab-2025-i-cps-u1-01-csharp-mayrafc\Bank\Bank.Domain.Tests\BanckAccountTests.cs
+C:\Users\LENOVO\.nuget\packages\microsoft.net.test.sdk\17.8.0\build\netcoreapp3.1\Microsoft.NET.Test.Sdk.Program.cs
+C:\Users\LENOVO\.nuget\packages\microsoft.testplatform.testhost\17.8.0\build\netcoreapp3.1\x64\testhost.exe
+C:\Users\LENOVO\.nuget\packages\microsoft.testplatform.testhost\17.8.0\build\netcoreapp3.1\x64\testhost.dll
+C:\Users\LENOVO\Documents\calida22\lab-2025-i-cps-u1-01-csharp-mayrafc\Bank\Bank.Domain.Tests\TestResults\27e620b7-7b3f-4511-9981-fcda46730905\coverage.cobertura.xml
+C:\Users\LENOVO\Documents\calida22\lab-2025-i-cps-u1-01-csharp-mayrafc\Bank\Bank.Domain.Tests\TestResults\c85121a3-6770-4398-af47-378ea9b85b61\coverage.cobertura.xml
+C:\Users\LENOVO\Documents\calida22\lab-2025-i-cps-u1-01-csharp-mayrafc\Bank\Bank.Domain.Tests\TestResults\e69be7b9-9fe8-4eb4-8dae-14c49d91123e\coverage.opencover.xml
+C:\Users\LENOVO\.nuget\packages\mstest.testadapter\3.1.1\build\net6.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\LENOVO\.nuget\packages\mstest.testadapter\3.1.1\build\net6.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\LENOVO\.nuget\packages\mstest.testadapter\3.1.1\build\net6.0\Microsoft.TestPlatform.AdapterUtilities.dll
