@@ -4,6 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <!-- Propiedades del paquete NuGet -->
+    <Version>1.0.0</Version>
+    <PackageId>MiPaquete.ApiBank</PackageId>
+    <Authors>mayrafc</Authors>
+    <Description>Mi paquete NuGet para ApiBank</Description>
   </PropertyGroup>
 
 </Project>

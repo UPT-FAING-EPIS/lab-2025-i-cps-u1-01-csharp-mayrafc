@@ -3,7 +3,7 @@ env:
   DOTNET_VERSION: '8.x'                 # La versión de .NET
   SONAR_ORG: 'apibankk'                 # Nombre de la organización en SonarCloud
   SONAR_PROJECT: 'apibankk_apibank'     # Clave del proyecto en SonarCloud
-  PACKAGE_NAME: 'apibankk-package'      # Nombre del paquete NuGet
+  PACKAGE_NAME: 'MiPaquete.ApiBank'  
   PACKAGE_VERSION: '1.0.0'              # Versión del paquete NuGet
 on:
   push:
