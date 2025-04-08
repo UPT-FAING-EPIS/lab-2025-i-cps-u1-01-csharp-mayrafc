@@ -1,9 +1,10 @@
 name: Sonar Continuos Integration
 env:
-  DOTNET_VERSION: '8.x'                 # la versión de .NET
+  DOTNET_VERSION: '8.x'                 # La versión de .NET
   SONAR_ORG: 'apibankk'                 # Nombre de la organización en SonarCloud
   SONAR_PROJECT: 'apibankk_apibank'     # Clave del proyecto en SonarCloud
-    # Key ID del proyecto de sonar
+  PACKAGE_NAME: 'apibankk-package'      # Nombre del paquete NuGet
+  PACKAGE_VERSION: '1.0.0'              # Versión del paquete NuGet
 on:
   push:
     branches: [ "main" ]
@@ -11,7 +12,7 @@ on:
 
 jobs:
   sonarqube:
-    name: Sonarqube Analisys
+    name: Sonarqube Analysis and NuGet Package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +20,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Configurando la versión de NET
+      - name: Configurando la versión de .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
@@ -32,3 +33,32 @@ jobs:
           dotnet-sonarscanner begin /k:"${{ env.SONAR_PROJECT }}" /o:"${{ env.SONAR_ORG }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="*/*/*/coverage.opencover.xml" /d:sonar.qualitygate.wait=true
           dotnet build
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+      # Crear el paquete .nupkg
+      - name: Crear paquete .nupkg (NuGet)
+        run: |
+          dotnet pack --configuration Release --output ./nupkg
+
+      # Publicar el paquete en GitHub Packages
+      - name: Publicar paquete NuGet en GitHub Packages
+        run: |
+          echo "Publicando NuGet package en GitHub Packages..."
+          dotnet nuget push ./nupkg/${{ env.PACKAGE_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}
+
+      # Configurar GitHub CLI
+      - name: Configurar GitHub CLI
+        uses: cli/cli@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Generar notas de release basadas en los mensajes de commits
+      - name: Generar notas de release
+        run: |
+          changelog=$(git log --oneline $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%s" | sed -e 's/^/  - /')
+          echo "Changelog: $changelog"
+          echo "$changelog" > changelog.md
+
+      # Crear un release en GitHub
+      - name: Crear release en GitHub
+        run: |
+          gh release create "v1.0.0" ./nupkg/${{ env.PACKAGE_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg --title "Release 1.0.0" --notes-file changelog.md
