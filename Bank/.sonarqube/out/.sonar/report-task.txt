@@ -1,0 +1,7 @@
+organization=apibankk
+projectKey=apibankk_apibank
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.61662
+dashboardUrl=https://sonarcloud.io/dashboard?id=apibankk_apibank
+ceTaskId=AZYWuDKL8KCD4Ho-tM1z
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZYWuDKL8KCD4Ho-tM1z
