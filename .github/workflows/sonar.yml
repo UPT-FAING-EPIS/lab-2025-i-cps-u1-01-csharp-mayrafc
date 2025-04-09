@@ -2,10 +2,10 @@ name: SonarQube & Publish NuGet Package
 
 env:
   DOTNET_VERSION: '8.0.x'
-  SONAR_ORG: 'apibank'
-  SONAR_PROJECT: 'apibank_daleska'
-  PACKAGE_NAME: 'Bank.Domain'
-  PACKAGE_VERSION: '1.0.4'
+  SONAR_ORG: 'apibankk'
+  SONAR_PROJECT: 'apibankk_apibank'
+  PACKAGE_NAME: 'MiPaquete.ApiBank'
+  PACKAGE_VERSION: '1.0.0'
 
 on:
   push:
@@ -36,6 +36,9 @@ jobs:
       - name: Install SonarScanner
         run: dotnet tool install --global dotnet-sonarscanner
 
+      - name: Add .NET tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
       - name: Start SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -45,7 +48,7 @@ jobs:
             /o:"${{ env.SONAR_ORG }}" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
-            /d:sonar.sources="Bank/Bank.Domain, Bank/Bank.Domain.Tests" \
+            /d:sonar.sources="Bank/Bank.Domain" \
             /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
 
       - name: Restore, Test and Build
@@ -82,10 +85,7 @@ jobs:
 
       - name: Generate Changelog from Commits
         id: changelog
-        run: |
-          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
-          git log --pretty=format:"- %s" --no-merges -10 >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+        run: echo "changelog=$(git log --pretty=format:'- %s' --no-merges -10)" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         env:
@@ -93,5 +93,5 @@ jobs:
         run: |
           gh release create "v${{ env.PACKAGE_VERSION }}" \
             --title "Release v${{ env.PACKAGE_VERSION }}" \
-            --notes "${{ env.CHANGELOG }}" \
+            --notes "${{ steps.changelog.outputs.changelog }}" \
             Bank/Bank.Domain/nupkg/*.nupkg
