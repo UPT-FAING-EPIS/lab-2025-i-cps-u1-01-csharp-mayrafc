@@ -72,7 +72,8 @@ jobs:
           dotnet nuget add source --username ${{ github.actor }} \
             --password ${{ secrets.GH_NUGET_TOKEN }} \
             --store-password-in-clear-text \
-            --name github "https://nuget.pkg.github.com/Daleskadf/index.json"
+            --name github "https://nuget.pkg.github.com/mayrafc/index.json"
+
 
       - name: Push NuGet package to GitHub Packages
         env:
