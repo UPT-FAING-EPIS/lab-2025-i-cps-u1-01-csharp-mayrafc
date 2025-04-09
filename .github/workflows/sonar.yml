@@ -37,23 +37,28 @@ jobs:
 
       - name: Start SonarCloud analysis
         run: |
-          dotnet-sonarscanner begin /k:"${{ env.SONAR_PROJECT }}" /o:"${{ env.SONAR_ORG }}" \
+          dotnet sonarscanner begin /k:"${{ env.SONAR_PROJECT }}" /o:"${{ env.SONAR_ORG }}" \
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
-            /d:sonar.qualitygate.wait=true
+            /d:sonar.qualitygate.wait=true \
+            /d:sonar.sources="Bank/Bank.Domain, Bank/Bank.Domain.Tests"
 
-      - name: Restore, Test and Build
-        run: |
-          dotnet restore
-          dotnet test --collect:"XPlat Code Coverage;Format=opencover"
-          dotnet build --no-restore
+      - name: Restore dependencies
+        run: dotnet restore Bank/Bank.sln
+
+      - name: Run tests with coverage
+        run: dotnet test Bank/Bank.Domain.Tests/Bank.Domain.Tests.csproj --configuration Release --collect:"XPlat Code Coverage;Format=opencover"
+
+      - name: Build solution
+        run: dotnet build Bank/Bank.sln --configuration Release --no-restore
 
       - name: End SonarCloud analysis
-        run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
       - name: Pack NuGet package
-        run: dotnet pack --configuration Release --output ./nupkg
+        run: |
+          dotnet pack Bank/Bank.Domain/Bank.Domain.csproj --configuration Release --output ./nupkg
 
       - name: Add GitHub NuGet source
         run: |
